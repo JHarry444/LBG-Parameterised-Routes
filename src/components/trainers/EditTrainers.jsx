@@ -20,6 +20,7 @@ function EditTrainers() {
             setSpecialism(res.data.specialism);
         }).catch(err => console.error(err));
     }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 

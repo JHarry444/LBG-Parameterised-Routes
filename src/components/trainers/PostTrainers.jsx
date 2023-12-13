@@ -1,6 +1,6 @@
 import axios from "axios";
 
-function PostTrainers() {
+function PostTrainers(props) {
     function handleSubmit(event) {
         event.preventDefault();
         axios.post("http://localhost:8080/trainers", {
@@ -8,11 +8,12 @@ function PostTrainers() {
             age: event.target.age.value,
             specialism: event.target.specialism.value,
         }).then(res => {
-            console.log(res)
+            console.log(res);
+            props.fetchTrainers();
         }).catch(err => console.error(err));
     }
 
-    return ( <form onSubmit={handleSubmit}>
+    return (<form onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
         <input type="text" name="name" id="name" />
         <label htmlFor="age">Age</label>
@@ -20,7 +21,7 @@ function PostTrainers() {
         <label htmlFor="specialism">Specialism</label>
         <input type="text" name="specialism" id="specialism" />
         <button type="submit">Create Trainer</button>
-    </form> );
+    </form>);
 }
 
 export default PostTrainers;

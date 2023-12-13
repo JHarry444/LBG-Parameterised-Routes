@@ -1,34 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-function GetTrainers() {
-    const [trainers, setTrainers] = useState([]);
+import PropTypes from "prop-types";
+function GetTrainers(props) {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        axios.get("http://localhost:8080/trainers").then(res => {
-            setTrainers(res.data);
-        }).catch(err => console.error(err))
-    }, []);
-
-    const trainerRows = [];
-
-    for (const trainer of trainers) {
-        trainerRows.push(<tr key={trainer.id}>
-            <td>{trainer.name}</td>
-            <td>{trainer.age}</td>
-            <td>{trainer.specialism}</td>
-            <td><button type="button" onClick={()=> {
-                axios.delete("http://localhost:8080/trainers/" + trainer.id)
-                .then(res => {}) 
-                .catch(err => console.error(err));
-            }}>DELETE</button></td>
-            <td>
-                <button type="button" onClick={() => navigate("/trainers/edit/" + trainer.id)}>EDIT</button>
-            </td>
-        </tr>)
-    }
 
     return (<table>
         <thead>
@@ -46,10 +21,31 @@ function GetTrainers() {
         </thead>
         <tbody>
             {
-                trainerRows
+                props.trainerData.map(({ id, name, age, cohort }) => (<tr key={id}>
+                    <td>{name}</td>
+                    <td>{age}</td>
+                    <td>{cohort}</td>
+                    <td><button type="button" onClick={() => {
+                        axios.delete("http://localhost:8080/trainers/" + id)
+                            .then(res => { })
+                            .catch(err => console.error(err));
+                    }}>DELETE</button></td>
+                    <td>
+                        <button type="button" onClick={() => navigate("/trainers/edit/" + id)}>EDIT</button>
+                    </td>
+                </tr>))
             }
         </tbody>
     </table>);
+}
+
+GetTrainers.propTypes = {
+    trainerData: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        age: PropTypes.string.isRequired,
+        specialism: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired
+    }).isRequired).isRequired
 }
 
 export default GetTrainers;

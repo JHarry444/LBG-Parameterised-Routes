@@ -11,6 +11,18 @@
       "age": "27",
       "specialism": "DFE",
       "id": 2
+    },
+    {
+      "name": "Andrew",
+      "age": "12",
+      "specialism": "Software",
+      "id": 3
+    },
+    {
+      "name": "Cameron",
+      "age": "30",
+      "specialism": "SDET",
+      "id": 4
     }
   ],
   "trainees": [
